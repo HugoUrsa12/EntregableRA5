@@ -1,5 +1,6 @@
 package ra5.eurovision.modelo;
 
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,9 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Un objeto de esta clase guarda en un map (festival) las puntuaciones obtenidas
@@ -24,13 +22,14 @@ import java.util.TreeMap;
 public class Festival {
 
     private static final String SALIDA = "resultados.txt";
-  //  private      festival;
+    private HashMap<String, Integer> festival;
 
     /**
      * Constructor de la clase FestivalEurovision
      */
     public Festival() {
-       //TODO
+
+        festival = new HashMap<>();
 
     }
 
@@ -41,8 +40,15 @@ public class Festival {
      * si existe el país se añaden los puntos
      */
     public void addPuntos(String pais, int puntos) {
-        //TODO
 
+        if(festival.containsKey(pais)){
+            int punt = festival.get(pais) + puntos;
+            festival.remove(pais);
+            festival.put(pais, punt);
+        }
+        else {
+            festival.put(pais, puntos);
+        }
 
 
     }
@@ -76,7 +82,8 @@ public class Festival {
      * Se propagan las posibles excepciones
      */
     private void tratarLinea(String linea) throws NumberFormatException, IllegalArgumentException {
-        //TODO
+        String[] trozos = linea.split(":");
+
 
     }
 
