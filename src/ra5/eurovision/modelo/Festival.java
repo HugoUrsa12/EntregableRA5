@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 public class Festival {
 
     private static final String SALIDA = "resultados.txt";
-    private HashMap<String, Integer> festival;
+    private static HashMap<String, Integer> festival;
 
     /**
      * Constructor de la clase FestivalEurovision
@@ -115,7 +115,7 @@ public class Festival {
      *
      * Se propagan las posibles excepciones
      */
-    public int puntuacionDe(String pais) throws PaisExcepcion {
+    public static int puntuacionDe(String pais) throws PaisExcepcion {
 
         if (pais == null) {
             throw new PaisExcepcion("El país " + pais + " no esta en la lista");
@@ -128,7 +128,7 @@ public class Festival {
      * Devuelve el nombre del pais ganador
      * (el primero encontrado)
      */
-    public String ganador() {
+    public static String ganador() {
         int max = 0;
         String ganador = null;
         for (String clave : festival.keySet()) {
