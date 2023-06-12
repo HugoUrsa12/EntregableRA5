@@ -72,7 +72,7 @@
       </MenuBar>
    </top>
    <bottom>
-      <Button mnemonicParsing="false" onAction="#add" text="Clear" BorderPane.alignment="CENTER_RIGHT">
+      <Button mnemonicParsing="false" text="Clear" BorderPane.alignment="CENTER_RIGHT">
          <BorderPane.margin>
             <Insets top="10.0" />
          </BorderPane.margin>

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+
 /**
  * Un objeto de esta clase guarda en un map (festival) las puntuaciones obtenidas
  * en el festival de Eurovisión por una serie de países
@@ -65,11 +66,25 @@ public class Festival {
      * Usar try-with-resources
      */
     public int leerPuntuaciones(String nombre) {
-        //TODO
+
+        try (BufferedReader read = new BufferedReader(new FileReader(nombre))){
+            String linea = read.readLine();
+            int incorrectas = 0;
+            while(linea != null){
+                try {
+                    tratarLinea(linea);
+                }
+                catch (Exception e){
+                    incorrectas++;
+                }
+            }
+            return incorrectas;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
 
 
-        return 0;
-
+        }
     }
 
     /**
@@ -82,8 +97,14 @@ public class Festival {
      * Se propagan las posibles excepciones
      */
     private void tratarLinea(String linea) throws NumberFormatException, IllegalArgumentException {
-        String[] trozos = linea.split(":");
 
+        String[] trozos = linea.split(":");
+        if (trozos.length % 2 != 0) {
+                throw new IllegalArgumentException("Formato de línea incorrecto: " + linea);
+        }
+        for (int i = 0; i < trozos.length - 1; i+=2) {
+                festival.put(trozos[i].trim(), Integer.parseInt(trozos[i+1]));
+        }
 
     }
 
@@ -95,10 +116,11 @@ public class Festival {
      * Se propagan las posibles excepciones
      */
     public int puntuacionDe(String pais) throws PaisExcepcion {
-        //TODO
 
-
-        return 0;
+        if (pais == null) {
+            throw new PaisExcepcion("El país " + pais + " no esta en la lista");
+        }
+        return festival.get(pais);
 
     }
 
@@ -107,10 +129,16 @@ public class Festival {
      * (el primero encontrado)
      */
     public String ganador() {
-        //TODO
+        int max = 0;
+        String ganador = null;
+        for (String clave : festival.keySet()) {
+            if (festival.get(clave) > max) {
+                max = festival.get(clave);
+                ganador = clave;
+            }
+        }
 
-
-        return null;
+        return ganador;
     }
 
     /**
@@ -120,7 +148,15 @@ public class Festival {
      * Usar try-with-resources
      */
     public void guardarResultados() throws IOException {
-        //TODO
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(SALIDA)))) {
+            for (String clave : festival.keySet()) {
+                writer.println(clave + ": " + festival.get(clave));
+            }
+        }
+        catch(IOException e){
+                throw new IOException("No se puda guardar los resultados", e);
+            }
+
 
 
 
